@@ -43,6 +43,7 @@ public class Veritrans {
 	public static void initialize(String merchantID, String merchantHash) {
 		MERCHANT_ID = merchantID;
 		MERCHANTHASH = merchantHash;
+		isInitialized = true;
 	}
 	
 	public static Veritrans getInstance() {
@@ -109,14 +110,6 @@ public class Veritrans {
 
 	public static String getMerchantID() {
 		return MERCHANT_ID;
-	}
-
-	public void setMerchantID(String mid) {
-		MERCHANT_ID = mid;
-	}
-	
-	public void setMerchantHash(String mERCHANTHASH) {
-		MERCHANTHASH = mERCHANTHASH;
 	}
 
 	public String getOrderID() {
@@ -288,3 +281,4 @@ public class Veritrans {
 	}
 	
 }
+

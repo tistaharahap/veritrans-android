@@ -23,9 +23,12 @@ public class VeritransPaymentActivity extends Activity {
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.veritrans_webview);
 		
-		vt = new Veritrans();
-		vt.setMerchantID("T100000000000001000281");
-		vt.setMerchantHash("630e61e69b94c8d6c4a54afc0a2b716248f68bcba8ddf837db8824f07d574441");
+		vt = Veritrans.getInstance();
+		if(vt == null) {
+			Veritrans.initialize("T100000000000001000281", "630e61e69b94c8d6c4a54afc0a2b716248f68bcba8ddf837db8824f07d574441");
+			vt = Veritrans.getInstance();
+		}
+
 		vt.setFinishPaymentURL("http://www.urbanesia.com");
 		vt.setErrorPaymentURL("http://www.urbanesia.com");
 		vt.setUnfinishPaymentURL("http://www.urbanesia.com");
@@ -56,3 +59,4 @@ public class VeritransPaymentActivity extends Activity {
 	}
 	
 }
+
