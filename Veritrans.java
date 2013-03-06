@@ -2,6 +2,7 @@ package com.payments.veritrans;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class Veritrans {
 		post += "EMAIL=%s&SHIPPING_FLAG=%s&LANG_ENABLE_FLAG=%s&LANG=%s";
 		
 		post = String.format(post, 
-				MERCHANT_ID, MERCHANTHASH, orderID, sessionID, finishPaymentURL,
+				MERCHANT_ID, getCalculatedMerchantHash(), orderID, sessionID, finishPaymentURL,
 				unfinishPaymentURL, errorPaymentURL, settlementType,
 				grossAmount, customerSpecificationFlag, firstName, lastName,
 				address1, address2, city, countryCode, postalCode, phone,
@@ -280,5 +281,30 @@ public class Veritrans {
 		this.email = email;
 	}
 	
+	public String getCalculatedMerchantHash() {
+		String str = String.format("%s,%s,%s,%s,%s", MERCHANTHASH, MERCHANT_ID, settlementType, orderID, grossAmount);
+		
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			md.update(str.getBytes("iso-8859-1"), 0, str.length());
+			byte[] sha1hash = md.digest();
+			return convertToHex(sha1hash);
+		} catch (Exception e) {
+			return "";
+		}
+	}
+	
+	private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+	
 }
-

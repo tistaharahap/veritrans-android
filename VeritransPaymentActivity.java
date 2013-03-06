@@ -32,7 +32,7 @@ public class VeritransPaymentActivity extends Activity {
 		vt.setFinishPaymentURL("http://www.urbanesia.com");
 		vt.setErrorPaymentURL("http://www.urbanesia.com");
 		vt.setUnfinishPaymentURL("http://www.urbanesia.com");
-		vt.setCustomerSpecificationFlag(false);
+		vt.setCustomerSpecificationFlag(true);
 		vt.setGrossAmount("200000");
 		vt.setLanguage("in");
 		vt.setOrderID("ORDERWAKU001");
